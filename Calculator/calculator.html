@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+    <style>
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 5px;
+            width: 200px;
+            margin: 0 auto;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Calculator</h1>
+    <div class="calculator">
+        <button id="clear">C</button>
+        <button id="display">0</button>
+        <button id="equals">=</button>
+        <button id="divide">/</button>
+        <button id="seven">7</button>
+        <button id="eight">8</button>
+        <button id="nine">9</button>
+        <button id="multiply">*</button>
+        <button id="four">4</button>
+        <button id="five">5</button>
+        <button id="six">6</button>
+        <button id="subtract">-</button>
+        <button id="one">1</button>
+        <button id="two">2</button>
+        <button id="three">3</button>
+        <button id="add">+</button>
+        <button id="zero">0</button>
+        <button id="decimal">.</button>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let currentInput = '';
+        let firstValue = '';
+        let operator = '';
+
+        // Click event listeners for the buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                const buttonValue = button.innerText;
+                if (buttonValue === 'C') {
+                    currentInput = '';
+                    firstValue = '';
+                    operator = '';
+                } else if (buttonValue >= '0' && buttonValue <= '9' || buttonValue === '.') {
+                    currentInput += buttonValue;
+                } else if (buttonValue === '+' || buttonValue === '-' || buttonValue === '*' || buttonValue === '/') {
+                    if (currentInput !== '') {
+                        firstValue = currentInput;
+                        operator = buttonValue;
+                        currentInput = '';
+                    }
+                } else if (buttonValue === '=') {
+                    if (currentInput !== '' && firstValue !== '' && operator !== '') {
+                        switch (operator) {
+                            case '+':
+                                currentInput = String(Number(firstValue) + Number(currentInput));
+                                break;
+                            case '-':
+                                currentInput = String(Number(firstValue) - Number(currentInput));
+                                break;
+                            case '*':
+                                currentInput = String(Number(firstValue) * Number(currentInput));
+                                break;
+                            case '/':
+                                currentInput = String(Number(firstValue) / Number(currentInput));
+                                break;
+                        }
+                        operator = '';
+                        firstValue = '';
+                    }
+                }
+                display.textContent = currentInput;
+            });
+        });
+    </script>
+</body>
+</html>
